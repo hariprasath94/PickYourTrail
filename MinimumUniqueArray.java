@@ -1,28 +1,49 @@
-import java.io.*; 
-import java.util.*;
-class TestClass { 
-    static int minUniqueSum(int arr[], int n) 
-    { 
-        int sum = arr[0], prev = arr[0]; 
-        for (int i = 1; i < n; i++) { 
-            if (arr[i] <= prev) { 
-                prev = prev + 1; 
-                sum = sum + prev; 
-            }
-            else { 
-                sum = sum + arr[i]; 
-                prev = arr[i]; 
-            } 
-        } 
-        return sum; 
-    } 
-    public static void main (String[] args) { 
-		Scanner s = new Scanner(System.in);
-		int n = s.nextInt();
-        int arr[] = new int[n];
-		for(int i = 0 ; i < n ; i++)
-			arr[i] = s.nextInt();
-        System.out.println(minUniqueSum(arr, n)); 
-    } 
-} 
-  
+package hackerrank;
+
+import java.text.DecimalFormat;
+import java.util.List;
+
+public class Cake {
+
+	
+	static double PI = 3.14159265359d;
+	public static void main(String args[]) {
+//		int[] radii = new int[] {4,3,3};
+//		System.out.println(largestPiece(radii, 3));
+	}
+	
+	
+    private static double getArea(int radius) {
+		return PI * radius * radius;
+	}
+
+	public static String largestPiece(List<Integer> radii, int numberOfGuests) {
+		for(int j=0;j<radii.size();j++) {
+			int current = radii.get(j);
+			double maxArea = getArea(current);
+			for(int i=1;i<=numberOfGuests;i++) {
+				if(getMaxCuttableCount(radii,maxArea/i)== numberOfGuests){
+					return format(maxArea/i);
+				}
+			}
+		}
+		return null;
+    }
+
+
+	private static String format(double number) {
+		DecimalFormat dec = new DecimalFormat("#.0000");
+		return dec.format(number);
+	}
+	
+	private static int getMaxCuttableCount(List<Integer> radii, double area) {
+		int count =0;
+		for(int i=0;i<radii.size();i++) {
+			double thisArea = getArea(radii.get(i));
+			if(thisArea >= area) {
+				count += (thisArea / area);
+			}
+		}
+		return count;
+	}
+}
